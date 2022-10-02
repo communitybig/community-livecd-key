@@ -28,7 +28,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install \
             git \
-            zip 
+            zip \
+            build-essential 
+            
+          sudo python3 -m pip install meson
       
       - name: install-pacman
         shell: bash
