@@ -29,6 +29,9 @@ jobs:
           sudo apt-get install \
             git \
             zip \
+            cmake \
+            libarchive-dev \
+            pkg-config \
             build-essential 
             
           sudo python3 -m pip install meson
