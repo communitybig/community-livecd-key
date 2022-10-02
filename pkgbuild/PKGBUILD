@@ -1,0 +1,13 @@
+pkgname=biglinux-key
+pkgver=$(date +%y.%m.%d)
+pkgrel=$(date +%H%M)
+arch=('any')
+license=('GPL')
+url="https://github.com/biglinux/biglinux-key"
+pkgdesc="Keys for biglinux"
+source=("git+https://github.com/biglinux/${pkgname}.git")
+md5sums=(SKIP)
+
+package() {
+    cp -r "${srcdir}/${pkgname}/usr/" "${pkgdir}/"
+}
