@@ -3,7 +3,7 @@ name: BigLinux Update Key
 # Controls when the workflow will run
 on:
   schedule:
-    - cron:  '30 1 * * *'
+    - cron:  '0 1 * * 5'
   push:
     #branches: [ "master", "main", "*" ]
     branches: [ "*" ]
