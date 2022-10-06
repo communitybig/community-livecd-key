@@ -2,8 +2,8 @@ name: BigLinux Update Key
 
 # Controls when the workflow will run
 on:
-  schedule:
-    - cron:  '0 1 * * 5'
+  #schedule:
+    #- cron:  '0 1 * * 5'
   push:
     #branches: [ "master", "main", "*" ]
     branches: [ "*" ]
@@ -110,25 +110,25 @@ jobs:
           popd
           sudo rm -rf biglinux-keyring
             
-      - name: Update Key
-        run: |
-          sudo pacman-key --init
-          sudo pacman-key --populate archlinux manjaro biglinux
-          cp -f /etc/pacman.d/gnupg/pubring.gpg  usr/share/pacman/keyrings/
-          cp -f /etc/pacman.d/gnupg/trustdb.gpg  usr/share/pacman/keyrings/
+      #- name: Update Key
+        #run: |
+          #sudo pacman-key --init
+          #sudo pacman-key --populate archlinux manjaro biglinux
+          #cp -f /etc/pacman.d/gnupg/pubring.gpg  usr/share/pacman/keyrings/
+          #cp -f /etc/pacman.d/gnupg/trustdb.gpg  usr/share/pacman/keyrings/
           
-      - name: Update github
-        run: |
-          git add --all
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -m "Update $(date +%Y-%m-%d)"
+      #- name: Update github
+        #run: |
+          #git add --all
+          #git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          #git config --local user.name "github-actions[bot]"
+          #git commit -m "Update $(date +%Y-%m-%d)"
           
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+      #- name: Push changes
+        #uses: ad-m/github-push-action@master
+        #with:
+          #github_token: ${{ secrets.GITHUB_TOKEN }}
+          #branch: ${{ github.ref }}
       
       - name: Send Hooks BigLinux Build Package
         shell: bash
