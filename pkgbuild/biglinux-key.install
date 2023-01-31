@@ -6,8 +6,8 @@
 ## arg 1:  the new package version
 post_install() {
 	mkdir -p /etc/pacman.d/gnupg
-    cp -f /usr/share/pacman/keyrings/pubring.gpg
-    cp -f /usr/share/pacman/keyrings/trustdb.gpg
+    cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/
+    cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/
 }
 
 ## arg 2:  the old package version
