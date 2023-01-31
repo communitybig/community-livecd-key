@@ -1,0 +1,12 @@
+[Unit]
+Description=copy keys to /etc/pacman.d/gnupg/
+After=multi-user.target
+
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/biglinux-key.sh
+
+
+[Install]
+WantedBy=multi-user.target 
