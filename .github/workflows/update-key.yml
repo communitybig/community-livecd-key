@@ -114,9 +114,9 @@ jobs:
         run: |
           sudo pacman-key --init
           sudo pacman-key --populate archlinux manjaro biglinux
-          cp -f /etc/pacman.d/gnupg/pubring.gpg  usr/share/pacman/keyrings/
+          cp -fa /etc/pacman.d/gnupg/pubring.gpg  usr/share/pacman/keyrings/
           # cp -f /etc/pacman.d/gnupg/pubring.gpg  etc/pacman.d/gnupg/
-          cp -f /etc/pacman.d/gnupg/trustdb.gpg  usr/share/pacman/keyrings/
+          cp -fa /etc/pacman.d/gnupg/trustdb.gpg  usr/share/pacman/keyrings/
           # cp -f /etc/pacman.d/gnupg/trustdb.gpg  etc/pacman.d/gnupg/
           
       - name: Update github
