@@ -4,7 +4,7 @@ pkgrel=$(date +%H%M)
 arch=('any')
 license=('GPL')
 url="https://github.com/biglinux/biglinux-key"
-pkgdesc="Keys for biglinux"
+pkgdesc="DO NOT USE THIS PACKAGE, only for ISO generation in CI/CD"
 source=("git+https://github.com/biglinux/${pkgname}.git")
 md5sums=(SKIP)
 if [ -e "${pkgname}.install" ];then
