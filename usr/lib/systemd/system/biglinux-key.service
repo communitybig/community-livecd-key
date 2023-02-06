@@ -1,6 +1,6 @@
 [Unit]
 Description=copy keys to /etc/pacman.d/gnupg/
-After=multi-user.target
+After=pacman-init.service
 
 
 [Service]
