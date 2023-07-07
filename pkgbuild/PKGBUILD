@@ -1,9 +1,9 @@
-pkgname=biglinux-key
+pkgname=biglinux-livecd-key
 pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
 license=('GPL')
-url="https://github.com/biglinux/biglinux-key"
+url="https://github.com/biglinux/biglinux-livecd-key"
 pkgdesc="DO NOT USE THIS PACKAGE, only for ISO generation in CI/CD"
 source=("git+https://github.com/biglinux/${pkgname}.git")
 md5sums=(SKIP)
