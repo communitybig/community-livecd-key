@@ -157,7 +157,7 @@ jobs:
           data="{\
             \"event_type\": \"$repo\", \
             \"client_payload\": { \
-            \"branch\": \"${{ github.ref_name }}\", \
+            \"branch\": \"stable\", \
             \"url\": \"https://github.com/${{ github.repository }}\" \
             }\
           }"
