@@ -153,20 +153,34 @@ jobs:
         run: |
           repo_name=${{ github.repository }}
           IFS='/' read -r owner repo <<< "$repo_name"
-          # Define a variável data
-          data="{\
-            \"event_type\": \"$repo\", \
-            \"client_payload\": { \
-            \"branch\": \"stable\", \
-            \"url\": \"https://github.com/${{ github.repository }}\" \
-            \"type\": \"stable\", \
-            }\
-          }"
+          # Define a variável data com JSON válido
+          data='{
+            "event_type": "'"$repo"'",
+            "client_payload": {
+              "branch": "stable",
+              "url": "https://github.com/${{ github.repository }}",
+              "type": "stable"
+            }
+          }'
+
+          # Imprimir o JSON para debug
+          echo "JSON being sent:"
+          echo "$data"
 
           # Executa o comando curl com a variável data
           response=$(curl -s -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.REPOSITORY_TOKEN }}" \
+            -H "Content-Type: application/json" \
             --data "$data" \
             "https://api.github.com/repos/communitybig/build-package/dispatches")
-          echo "Workflow de build '${{ github.repository }}' acionado. Código de resposta: $response"
+          
+          echo "Resposta completa do GitHub:"
+          echo "$response"
+
+          if [ -z "$response" ]; then
+            echo "Workflow de build '${{ github.repository }}' acionado com sucesso para branch stable."
+          else
+            echo "Erro ao acionar o workflow: $response"
+            exit 1
+          fi
