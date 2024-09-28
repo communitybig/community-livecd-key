@@ -130,24 +130,40 @@ jobs:
           sudo pacman-key --init
           sudo pacman-key --populate archlinux manjaro biglinux community
           cp -fa /etc/pacman.d/gnupg/pubring.gpg  usr/share/pacman/keyrings/
-          # cp -f /etc/pacman.d/gnupg/pubring.gpg  etc/pacman.d/gnupg/
           cp -fa /etc/pacman.d/gnupg/trustdb.gpg  usr/share/pacman/keyrings/
-          # cp -f /etc/pacman.d/gnupg/trustdb.gpg  etc/pacman.d/gnupg/
           
       - name: Update github
         run: |
+          # https://api.github.com/users/username
           git add --all
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "178826223+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -m "Update $(date +%Y-%m-%d)"
-          
+          git commit -m "github-actions bot Update $(date +%Y-%m-%d)"
+        
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.TOKEN_RELEASE }}
           branch: ${{ github.ref }}
       
-      - name: Send Hooks BigCommunity Build Package
+      - name: Build Package on communitybig/build-package
         shell: bash
         run: |
-          curl -X POST -H "Accept: application/json" -H "Authorization: token ${{ secrets.TOKEN_RELEASE }}" --data '{"event_type": "${{ github.repository }}", "client_payload": { "branch": "${{ github.ref_name }}", "url": "https://github.com/${{ github.repository }}", "version": "1.2.3"}}' https://api.github.com/repos/communitybig/build-package/dispatches
+          repo_name=${{ github.repository }}
+          IFS='/' read -r owner repo <<< "$repo_name"
+          # Define a variável data
+          data="{\
+            \"event_type\": \"$repo\", \
+            \"client_payload\": { \
+            \"branch\": \"${{ github.ref_name }}\", \
+            \"url\": \"https://github.com/${{ github.repository }}\" \
+            }\
+          }"
+
+          # Executa o comando curl com a variável data
+          response=$(curl -s -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.TOKEN_RELEASE }}" \
+            --data "$data" \
+            "https://api.github.com/repos/communitybig/build-package/dispatches")
+          echo "Workflow de build '${{ github.repository }}' acionado. Código de resposta: $response"
