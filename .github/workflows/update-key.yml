@@ -178,7 +178,7 @@ jobs:
             "client_payload": {
               "branch": "stable",
               "url": "https://github.com/${{ github.repository }}",
-              "type": "stable"
+              "branch_type": "stable"
             }
           }'
 
