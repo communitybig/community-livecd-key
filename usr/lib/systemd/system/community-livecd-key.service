@@ -1,12 +1,13 @@
 [Unit]
 Description=copy keys to /etc/pacman.d/gnupg/
 After=pacman-init.service
-
+Requires=pacman-init.service
+Before=pacman.service
 
 [Service]
-Type=simple
+Type=oneshot
+RemainAfterExit=yes
 ExecStart=/usr/bin/community-livecd-key.sh
 
-
 [Install]
-WantedBy=multi-user.target 
+WantedBy=multi-user.target
