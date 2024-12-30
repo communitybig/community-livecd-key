@@ -8,9 +8,6 @@ post_install() {
 	mkdir -p /etc/pacman.d/gnupg
     cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/pubring.gpg
     cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/trustdb.gpg
-    
-    # Enable the timer
-    systemctl enable --now community-key-refresh.timer
 }
 
 ## arg 2:  the old package version
