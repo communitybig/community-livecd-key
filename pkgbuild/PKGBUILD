@@ -1,6 +1,6 @@
 pkgname=community-livecd-key
 pkgdesc="DO NOT USE THIS PACKAGE, only for ISO generation in CI/CD"
-pkgver=$(date +%y.%m.%d)
+pkgver=$(date +%Y%m%d)
 pkgrel=$(date +%H%M)
 arch=('any')
 license=('MIT')
