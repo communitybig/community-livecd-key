@@ -21,3 +21,6 @@ for file in "${files[@]}"; do
     cp -af "$srcfile" "$destfile" # Copia o arquivo
   fi
 done
+
+# Garante que o chaveiro está inicializado corretamente
+pacman-key --init

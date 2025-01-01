@@ -3,10 +3,10 @@ name: BigCommunity Update Key
 # Controls when the workflow will run
 on:
   schedule:
-    - cron:  '0 23 * * 3'
+    - cron: "0 23 * * 3"
   push:
     #branches: [ "master", "main", "*" ]
-    branches: [ "*" ]
+    branches: ["*"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -17,13 +17,13 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # This gives the GITHUB_TOKEN permission to push
+      contents: write # This gives the GITHUB_TOKEN permission to push
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
+
       - id: install-build-dependencies
         shell: bash
         run: |
@@ -41,7 +41,7 @@ jobs:
           python3-pip
           sudo pip3 install meson
           sudo pip3 install ninja
-      
+
       - name: install-pacman
         shell: bash
         run: |
@@ -88,7 +88,7 @@ jobs:
             popd
             sudo rm -r pacman
           ) || exit 1
-          
+
           #add biglinux and community repository
           sudo sed -i '/\[core\]/{h;s/.*/\[biglinux-update-stable\]/;p;x;}' /etc/pacman.conf
           sudo sed -i '/\[core\]/{h;s/.*/SigLevel = PackageRequired/;p;x;}' /etc/pacman.conf
@@ -110,7 +110,7 @@ jobs:
           [biglinux-stable]
           SigLevel = PackageRequired
           Server = https://repo.biglinux.com.br/stable/$arch' | sudo tee -a /etc/pacman.conf
-            
+
       - name: install keyrings
         shell: bash
         run: |
@@ -145,14 +145,14 @@ jobs:
             sudo install -m0644 community-revoked /usr/share/pacman/keyrings/
           popd
           sudo rm -r community-keyring
-            
+
       - name: Update Key
         run: |
           sudo pacman-key --init
           sudo pacman-key --populate archlinux manjaro biglinux community
           cp -fa /etc/pacman.d/gnupg/pubring.gpg  usr/share/pacman/keyrings/
           cp -fa /etc/pacman.d/gnupg/trustdb.gpg  usr/share/pacman/keyrings/
-          
+
       - name: Update github
         run: |
           # https://api.github.com/users/username
@@ -160,13 +160,13 @@ jobs:
           git config --local user.email "178826223+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git commit -m "github-actions bot Update $(date +%Y-%m-%d)"
-        
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-      
+
       - name: Build Package on communitybig/build-package
         shell: bash
         run: |
@@ -193,7 +193,7 @@ jobs:
             -H "Content-Type: application/json" \
             --data "$data" \
             "https://api.github.com/repos/communitybig/build-package/dispatches")
-          
+
           echo "Resposta completa do GitHub:"
           echo "$response"
 
