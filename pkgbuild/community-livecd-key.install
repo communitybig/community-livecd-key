@@ -1,33 +1,45 @@
-## arg 1:  the new package version
-#pre_install() {
-# do something here
-#}
+#!/usr/bin/env bash
 
-## arg 1:  the new package version
-post_install() {
-	mkdir -p /etc/pacman.d/gnupg
-	cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/pubring.gpg
-	cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/trustdb.gpg
-  #Garante que o chaveiro está inicializado corretamente
-  pacman-key --init
+msg() {
+	local ALL_OFF="\e[1;0m"
+	local BOLD="\e[1;1m"
+	local GREEN="${BOLD}\e[1;32m"
+
+	local MESSAGE=$1
+	shift 1
+	printf "${GREEN}==>[community-livecd-key]${ALL_OFF}${BOLD} ${MESSAGE}${ALL_OFF}\n" "$@" >&2
 }
 
-## arg 2:  the old package version
-#pre_upgrade() {
-# do something here
-#}
+post_install() {
+	# Lista dos arquivos a serem copiados
+	files=('pubring.gpg' 'trustdb.gpg')
 
-## arg 2:  the old package version
+	# Caminhos de origem e destino
+	srcpath='/usr/share/pacman/keyrings'
+	destpath='/etc/pacman.d/gnupg'
+
+	# Verifica se o diretório de destino existe, caso contrário, cria-o
+	[[ ! -d "$destpath" ]] && mkdir -p "$destpath"
+
+	mkdir -p /etc/pacman.d/gnupg
+
+	# Itera pelos arquivos da lista
+	for file in "${files[@]}"; do
+		srcfile="$srcpath/$file"
+		destfile="$destpath/$file"
+
+		# Verifica se o arquivo existe na origem
+		if [[ -e "$srcfile" ]]; then
+			msg "Copying 'Public Keyring' and 'Trust Database' ${srcfile} into ${destfile}..."
+			cp -af "$srcfile" "$destfile" >/dev/null 2>&1
+		fi
+	done
+  # Garante que o chaveiro está inicializado corretamente
+  msg "Initializing pacman keyring..."
+  pacman-key --init >/dev/null 2>&1
+  msg "Done!"
+}
+
 post_upgrade() {
 	post_install
 }
-
-## arg 1:  the old package version
-#pre_remove() {
-# do something here
-#}
-
-## arg 1:  the old package version
-#post_remove() {
-# do something here
-#}
